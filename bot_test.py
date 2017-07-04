@@ -3,6 +3,7 @@ import os
 import re
 import secrets
 import palindrome
+import reply_format
 
 # connect to reddit and create instance
 user_agent = 'testing by /u/redditbottesting 0.9.0'
@@ -58,15 +59,15 @@ def comment_reply(sub, search_term, reply):
 def palindrome_finder(sub):
     """reply to a reddit comment given a subreddit, search term, and reply"""
     subreddit = r.subreddit(sub)
-    for submission in subreddit.hot(limit=5):
+    for submission in subreddit.hot(limit=15):
         # see if bot has already replied to the post
         if submission.id not in posts_replied_to:
             submission.comments.replace_more(limit=0)
             for comment in submission.comments.list():
                 for word in palindrome.comment_parse(comment.body):
                     if palindrome.is_palindrome(word):
-                        # found palindrome
-                        comment.reply(word+'. You made a palindrome!')
+                        # found palindrome, post reply with formatting
+                        comment.reply(reply_format.add_links(word+'. You made a palindrome!'))
                         print('Bot replying to : ', submission.title)
                         # add post id to list
                         posts_replied_to.append(submission.id)

@@ -4,7 +4,10 @@ import string
 
 
 def comment_parse(s):
+    # all punctuation
     exclude = set(string.punctuation)
+    # add all digits as well
+    exclude = list(exclude).append(list(set(string.digits)))
     s = ''.join(ch for ch in s if ch not in exclude)
     s = [word for word in s.split(' ')]
     return s
