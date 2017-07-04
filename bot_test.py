@@ -34,9 +34,24 @@ def post_reply(sub, search_term, reply):
         if submission.id not in posts_replied_to:
             if re.search(search_term, submission.title, re.IGNORECASE):
                 submission.reply(reply)
-                print('Bot replying to : ', submission.title)
+                print('Bot replying to submission: ', submission.title)
                 # add post id to list
                 posts_replied_to.append(submission.id)
+
+
+def comment_reply(sub, search_term, reply):
+    """reply to a reddit comment given a subreddit, search term, and reply"""
+    subreddit = r.subreddit(sub)
+    for submission in subreddit.hot(limit=5):
+        # see if bot has already replied to the post
+        if submission.id not in posts_replied_to:
+            submission.comments.replace_more(limit=0)
+            for comment in submission.comments.list():
+                if search_term.lower() in comment.body:
+                    comment.reply(reply)
+                    print('Bot replying to : ', submission.title)
+                    # add post id to list
+                    posts_replied_to.append(submission.id)
 
 
 def reply_tracking_pack():
@@ -49,6 +64,7 @@ def reply_tracking_pack():
 # run it
 if __name__ == '__main__':
     posts_replied_to = reply_tracking_unpack()
-    post_reply('pythonforengineers', 'i love python s', 'second hello')
+    # post_reply('pythonforengineers', 'i love python s', 'second hello')
+    comment_reply('pythonforengineers', 'second hello', 'third')
     reply_tracking_pack()
 
