@@ -3,6 +3,11 @@ import string
 # comment = 'this ia a comment that has the palindrome, racecar.'
 
 
+class RedditBot:
+    def __init__(self, name):
+        self.name = name
+
+
 def comment_parse(s):
     # all punctuation
     exclude = set(string.punctuation)

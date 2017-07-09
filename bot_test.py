@@ -57,6 +57,7 @@ def comment_reply(sub, search_term, reply):
 
 
 def palindrome_finder(sub):
+    # TODO: need to add functionality to find multiple palindromes in one comment
     """reply to a reddit comment given a subreddit, search term, and reply"""
     subreddit = r.subreddit(sub)
     for submission in subreddit.hot(limit=10):
