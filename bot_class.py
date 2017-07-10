@@ -1,4 +1,6 @@
 import os
+import sys
+import time
 import praw
 import secrets
 
@@ -14,7 +16,7 @@ class RedditBot:
         secrets.determine_creds(self.name)
 
         # connect to reddit and create instance
-        user_agent = 'testing by /u/redditbottesting 0.9.0 for ' + self.name
+        user_agent = 'testing by /u/'+self.name+' v0.9.0'
         r = praw.Reddit(user_agent=user_agent,
                         client_id=secrets.creds.client_id,
                         client_secret=secrets.creds.client_secret,
@@ -23,7 +25,6 @@ class RedditBot:
         return r
 
     def reply_tracking_unpack(self):
-        print("print made it here")
         """returns list of posts the bot has already replied to"""
         filename = self.name+'_posts_replied_to.txt'
         if os.path.isfile(filename):
@@ -44,7 +45,7 @@ class RedditBot:
             print(filename)
             for post_id in self.posts_replied_to:
                 f.write(post_id + '\n')
-
+    '''
     def reply_to_comment(self, sub, search_term, reply):
         """reply to a reddit comment given a subreddit, search term, and reply"""
         subreddit = self.r.subreddit(sub)
@@ -55,10 +56,27 @@ class RedditBot:
                 for comment in submission.comments.list():
                     if search_term.lower() in comment.body:
                         comment.reply(reply)
-                        print('Bot replying to : ', submission.title)
+                        print('bot replying to : ', submission.title)
                         # add post id to list
                         self.posts_replied_to.append(submission.id)
+    '''
 
+    def reply_format(self, s):
+        return '''\
+{0}
 
+[Code](https://github.com/henkhaus/reddit_bot_testing) |\
+u/{1} |\
+[Feedback](https://np.reddit.com/message/compose/?to={1}&subject=Feedback)
+        '''.format(s, self.name)
+
+    def handle_ratelimit(self, func, *args, **kwargs):
+        while True:
+            try:
+                func(*args, **kwargs)
+                break
+            except praw.exceptions.APIException as error:
+                print('Sleeping for 600 seconds')# % error.sleep_time)
+                time.sleep(600)
 
 

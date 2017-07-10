@@ -30,8 +30,9 @@ def palindrome_finder(sub, r, posts_replied_to):
                 for word in comment_parse(comment.body):
                     if str(is_palindrome(word)) == 'True':
                         # found palindrome, post reply with formatting
-                        comment.reply(reply_format.add_links(word+'. You made a palindrome!'))
-                        print('Bot replying to : ', submission.title)
+                        print(word)
+                        bot.handle_ratelimit(comment.reply, bot.reply_format(word+'. You made a palindrome!'))
+                        print('bot replying to : ', submission.title)
                         # add post id to list
                         posts_replied_to.append(submission.id)
 
@@ -41,7 +42,8 @@ for word in comment_parse(comment):
 '''
 
 if __name__ == '__main__':
-    bot = bot_class.RedditBot('palindrome')
+    bot = bot_class.RedditBot('thepalindromebot')
     print(bot.posts_replied_to)
     palindrome_finder('pythonforengineers', bot.r, bot.posts_replied_to)
+    # this 'kills' the bot
     bot.reply_tracking_pack()
