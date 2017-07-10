@@ -9,7 +9,6 @@ class RedditBot:
         self.name = name
         self.r = self.login()
         self.posts_replied_to = self.reply_tracking_unpack()
-        print("made a class")
 
     def login(self):
         secrets.determine_creds(self.name)
@@ -39,7 +38,6 @@ class RedditBot:
         return post_ids
 
     def reply_tracking_pack(self):
-        print("in reply tracking pack")
         """take updated list and write to txt"""
         filename = self.name + '_posts_replied_to.txt'
         with open(filename, 'w') as f:
