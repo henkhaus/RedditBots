@@ -42,5 +42,6 @@ for word in comment_parse(comment):
 
 if __name__ == '__main__':
     bot = bot_class.RedditBot('palindrome')
+    print(bot.posts_replied_to)
     palindrome_finder('pythonforengineers', bot.r, bot.posts_replied_to)
-    bot.kill_bot('palindrome')
+    bot.reply_tracking_pack()

@@ -7,14 +7,15 @@ class RedditBot:
     # TODO: Need to define method to determine rate limit
     def __init__(self, name):
         self.name = name
-        self.r = self.login(name)
-        self.posts_replied_to = self.reply_tracking_unpack(name)
+        self.r = self.login()
+        self.posts_replied_to = self.reply_tracking_unpack()
+        print("made a class")
 
-    def login(self, name):
-        secrets.determine_creds(name)
+    def login(self):
+        secrets.determine_creds(self.name)
 
         # connect to reddit and create instance
-        user_agent = 'testing by /u/redditbottesting 0.9.0 for ' + name
+        user_agent = 'testing by /u/redditbottesting 0.9.0 for ' + self.name
         r = praw.Reddit(user_agent=user_agent,
                         client_id=secrets.creds.client_id,
                         client_secret=secrets.creds.client_secret,
@@ -22,9 +23,10 @@ class RedditBot:
                         password=secrets.creds.password)
         return r
 
-    def reply_tracking_unpack(self, name):
+    def reply_tracking_unpack(self):
+        print("print made it here")
         """returns list of posts the bot has already replied to"""
-        filename = name+'_posts_replied_to.txt'
+        filename = self.name+'_posts_replied_to.txt'
         if os.path.isfile(filename):
             # file exists, read contents into list
             with open(filename, 'r') as f:
@@ -36,10 +38,12 @@ class RedditBot:
             post_ids = []
         return post_ids
 
-    def reply_tracking_pack(self, name):
+    def reply_tracking_pack(self):
+        print("in reply tracking pack")
         """take updated list and write to txt"""
-        filename = name + '_posts_replied_to.txt'
+        filename = self.name + '_posts_replied_to.txt'
         with open(filename, 'w') as f:
+            print(filename)
             for post_id in self.posts_replied_to:
                 f.write(post_id + '\n')
 
@@ -57,7 +61,6 @@ class RedditBot:
                         # add post id to list
                         self.posts_replied_to.append(submission.id)
 
-    def kill_bot(self, name):
-        self.reply_tracking_pack(name)
+
 
 
