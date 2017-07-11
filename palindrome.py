@@ -7,7 +7,9 @@ def comment_parse(s):
     # remove all punctuation
     exclude = set(string.punctuation)
     s = ''.join(ch for ch in s if ch not in exclude)
-    return s.split()
+    #remove all digits
+    t = ''.join(char for char in s if not char.isdigit())
+    return t.split()
 
 
 def is_palindrome(s):

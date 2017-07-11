@@ -65,7 +65,7 @@ class RedditBot:
     '''
 
     def reply_format(self, s):
-        print(s)
+        self.reply_tracking_unpack()
         return '''\
 {0}
 
@@ -82,6 +82,7 @@ u/{1} |\
                 break
             except praw.exceptions.APIException as error:
                 print('Sleeping for 600 seconds')
+                self.reply_tracking_pack()
                 time.sleep(600)
 
 
