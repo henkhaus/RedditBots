@@ -1,4 +1,3 @@
-import reply_format
 import bot_class
 import string
 
@@ -7,7 +6,7 @@ def comment_parse(s):
     # remove all punctuation
     exclude = set(string.punctuation)
     s = ''.join(ch for ch in s if ch not in exclude)
-    #remove all digits
+    # remove all digits
     t = ''.join(char for char in s if not char.isdigit())
     return t.split()
 
@@ -33,7 +32,7 @@ def palindrome_finder(sub, r, posts_replied_to):
                 for word in comment_parse(comment.body):
                     if is_palindrome(word):
                         palindrome_set.add(word)
-                        # found palindrome, add to comments palindrom list
+                        # found palindrome, add to comments palindrome list
                         print(word)
                 print(palindrome_set)
                 if palindrome_set:

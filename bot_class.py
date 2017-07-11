@@ -75,7 +75,7 @@ u/{1} |\
         '''.format(", ".join(word for word in s)+": the proceeding words are palindromes", self.name)
 
     def handle_ratelimit(self, func, *args, **kwargs):
-        print("in handle rate imit function")
+        print("in handle rate limit function")
         while True:
             try:
                 func(*args, **kwargs)
