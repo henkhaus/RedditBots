@@ -6,22 +6,25 @@ import secrets
 
 
 class RedditBot:
-    # TODO: Need to define method to determine rate limit
+
     def __init__(self, name):
         self.name = name
         self.r = self.login()
         self.posts_replied_to = self.reply_tracking_unpack()
 
     def login(self):
-        secrets.determine_creds(self.name)
-
+        creds = secrets.determine_creds(self.name)
+        print("creds declared")
+        print(creds)
         # connect to reddit and create instance
         user_agent = 'testing by /u/'+self.name+' v0.9.0'
+        print(user_agent)
         r = praw.Reddit(user_agent=user_agent,
-                        client_id=secrets.creds.client_id,
-                        client_secret=secrets.creds.client_secret,
-                        username=secrets.creds.username,
-                        password=secrets.creds.password)
+                        client_id=creds.client_id,
+                        client_secret=creds.client_secret,
+                        username=creds.username,
+                        password=creds.password)
+
         return r
 
     def reply_tracking_unpack(self):
@@ -62,21 +65,23 @@ class RedditBot:
     '''
 
     def reply_format(self, s):
+        print(s)
         return '''\
 {0}
 
 [Code](https://github.com/henkhaus/reddit_bot_testing) |\
 u/{1} |\
 [Feedback](https://np.reddit.com/message/compose/?to={1}&subject=Feedback)
-        '''.format(s, self.name)
+        '''.format(", ".join(word for word in s)+": the proceeding words are palindromes", self.name)
 
     def handle_ratelimit(self, func, *args, **kwargs):
+        print("in handle rate imit function")
         while True:
             try:
                 func(*args, **kwargs)
                 break
             except praw.exceptions.APIException as error:
-                print('Sleeping for 600 seconds')# % error.sleep_time)
+                print('Sleeping for 600 seconds')
                 time.sleep(600)
 
 
