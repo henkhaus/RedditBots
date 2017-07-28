@@ -14,8 +14,8 @@ class RedditBot:
 
     def login(self):
         creds = secrets.determine_creds(self.name)
-        print("creds declared")
-        print(creds)
+        #print("creds declared")
+        #print(creds)
         # connect to reddit and create instance
         user_agent = 'testing by /u/'+self.name+' v0.9.0'
         print(user_agent)
@@ -45,7 +45,7 @@ class RedditBot:
         """take updated list and write to txt"""
         filename = self.name + '_posts_replied_to.txt'
         with open(filename, 'w') as f:
-            print(filename)
+            #print(filename)
             for post_id in self.posts_replied_to:
                 f.write(post_id + '\n')
     '''
